@@ -1,0 +1,10 @@
+{
+  "http_port": 8080,
+  "url": "jdbc:postgresql://localhost:5432/netzme",
+  "driver_class": "org.postgresql.Driver",
+  "user": "postgres",
+  "password": "postgres",
+  "db.url": "jdbc:postgresql://localhost:5432/netzme?user=postgres&password=postgres",
+
+  "kafka.url" : "localhost:9092"
+}

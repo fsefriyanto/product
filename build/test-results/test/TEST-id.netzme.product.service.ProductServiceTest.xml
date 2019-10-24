@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="id.netzme.product.service.ProductServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-10-24T08:24:15" hostname="netzmes-MacBook-Pro.local" time="6.568">
+  <properties/>
+  <testcase name="getProductById()" classname="id.netzme.product.service.ProductServiceTest" time="6.483"/>
+  <testcase name="deleteProduct()" classname="id.netzme.product.service.ProductServiceTest" time="0.029"/>
+  <testcase name="getAllProduct()" classname="id.netzme.product.service.ProductServiceTest" time="0.011"/>
+  <testcase name="editProduct()" classname="id.netzme.product.service.ProductServiceTest" time="0.007"/>
+  <testcase name="addProduct()" classname="id.netzme.product.service.ProductServiceTest" time="0.017"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/Users/fandy/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-simple/1.7.5/4a950c50bbc67fdbc908190dc8e25d7a0251f74a/slf4j-simple-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/Users/fandy/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-log4j12/1.7.21/7238b064d1aba20da2ac03217d700d91e02460fa/slf4j-log4j12-1.7.21.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
+]]></system-err>
+</testsuite>

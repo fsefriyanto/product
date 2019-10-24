@@ -1,0 +1,116 @@
+plugins {
+  id 'java'
+  id 'application'
+  id 'com.github.johnrengelman.shadow' version '5.0.0'
+  id 'io.vertx.vertx-plugin' version '0.0.4'
+}
+
+group = 'id.netzme'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  vertxVersion = '3.8.2'
+  junitJupiterEngineVersion = '5.4.0'
+  kafkaVersion = '2.3.0'
+  junitVersion = '5.3.0'
+  logbackVersion = '1.2.3'
+  mockitoVersion = '2.28.2'
+  powermockVersion = '1.6.6'
+  slf4jVersion = '1.7.25'
+}
+
+vertx {
+  mainVerticle = "id.netzme.product.MainVerticle"
+}
+
+application {
+  mainClassName = 'io.vertx.core.Launcher'
+}
+
+sourceCompatibility = '1.8'
+
+def mainVerticleName = 'id.netzme.product.MainVerticle'
+def watchForChange = 'src/**/*'
+def doOnChange = './gradlew classes'
+
+dependencies {
+  implementation "io.vertx:vertx-jdbc-client:$vertxVersion"
+  implementation "io.vertx:vertx-core:$vertxVersion"
+  implementation "io.vertx:vertx-config:$vertxVersion"
+  implementation "io.vertx:vertx-web:$vertxVersion"
+  implementation "io.vertx:vertx-rx-java2:$vertxVersion"
+  implementation "io.vertx:vertx-kafka-client:$vertxVersion"
+  implementation "org.postgresql:postgresql:9.4-1201-jdbc41"
+  implementation "com.zaxxer:HikariCP:2.4.0"
+  implementation "com.github.davidmoten:rxjava2-jdbc:0.2.5"
+  implementation "org.apache.kafka:kafka-clients:$kafkaVersion"
+  implementation "org.apache.kafka:kafka-streams:$kafkaVersion"
+  implementation 'org.slf4j:slf4j-api:1.7.5'
+  implementation 'org.slf4j:slf4j-simple:1.7.5'
+
+  annotationProcessor "io.vertx:vertx-codegen:$vertxVersion"
+
+  testImplementation "io.vertx:vertx-junit5:$vertxVersion"
+  testImplementation "org.mockito:mockito-core:$mockitoVersion"
+  testImplementation "org.mockito:mockito-junit-jupiter:$mockitoVersion"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+  testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+//  testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.4'
+
+
+}
+
+
+shadowJar {
+  classifier = 'fat'
+  manifest {
+    attributes 'Main-Verticle': mainVerticleName
+  }
+  mergeServiceFiles {
+    include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+  }
+}
+
+test {
+  useJUnitPlatform()
+  testLogging {
+    events 'PASSED', 'FAILED', 'SKIPPED'
+  }
+}
+
+run {
+  args = ['run', mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange"]
+}
+
+task annotationProcessing(type: JavaCompile, group: 'build') {
+  group 'build'
+  source = sourceSets.main.java
+  classpath = configurations.compile + configurations.annotationProcessor
+  options.annotationProcessorPath = configurations.annotationProcessor
+  destinationDir = project.file('src/main/generated')
+  options.compilerArgs = [
+    "-proc:only",
+    "-processor", "io.vertx.codegen.CodeGenProcessor",
+    "-AoutputDirectory=${destinationDir.absolutePath}"
+  ]
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs += 'src/main/generated'
+    }
+  }
+}
+
+compileJava {
+  targetCompatibility = 1.8
+  sourceCompatibility = 1.8
+
+//  dependsOn annotationProcessing
+//  options.compilerArgs += '-proc:none'
+}

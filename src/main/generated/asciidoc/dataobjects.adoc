@@ -1,0 +1,14 @@
+= Cheatsheets
+
+[[Product]]
+== Product
+
+
+[cols=">25%,25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[id]]`@id`|`Number (Integer)`|-
+|[[name]]`@name`|`String`|-
+|===
+
